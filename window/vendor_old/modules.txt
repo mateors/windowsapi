@@ -1,0 +1,8 @@
+# github.com/AllenDang/w32 v0.0.0-20180428130237-ad0a36d80adc
+## explicit
+# github.com/gonutz/w32 v1.0.0
+## explicit
+github.com/gonutz/w32
+# github.com/hnakamur/w32syscall v0.0.0-20150329104255-b8b99ed86a56
+## explicit
+github.com/hnakamur/w32syscall
