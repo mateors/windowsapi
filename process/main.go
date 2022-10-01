@@ -6,6 +6,10 @@ import (
 	"strings"
 	"syscall"
 	"unsafe"
+
+	//github.com/go-ole/go-ole
+
+	ole "github.com/go-ole/go-ole"
 )
 
 // Windows API functions
@@ -458,15 +462,9 @@ func main() {
 	// _, err = ui.FindProc("IUIAutomationElement::FindAll")
 	// fmt.Println("", ui.Name, err)
 
-	find := uiauto.NewProc("IUIAutomationElement::FindAll")
-	err := find.Find()
-	fmt.Println(">>", err)
-
-	fmt.Println(PROCESS_SET_INFORMATION, 0x00800000)
-
 	//svar := fmt.Sprintf("%#x", 512)
-	svar := fmt.Sprintf("0x%x", 512)
-	fmt.Println(svar)
+	// svar := fmt.Sprintf("0x%x", 512)
+	// fmt.Println(svar)
 
 	EnumWindows(func(w HWND) bool {
 
@@ -500,10 +498,23 @@ func main() {
 				//sss := string(gwp)
 				//sss := strconv.QuoteRuneToASCII(gwp)
 
+				//guid, err := oleutil.ClassIDFrom("Google Chrome")
+				//fmt.Println("^^", guid, err)
+
+				//
+				ole.CoInitialize(0)
+				var CLSID_CUIAutomation = &ole.GUID{0xff48dba4, 0x60ef, 0x4201, [8]byte{0xaa, 0x87, 0x54, 0x10, 0x3e, 0xef, 0x59, 0x4e}}
+
+				var IID_IUIAutomation = &ole.GUID{0x30cbe57d, 0xd9d0, 0x452a, [8]byte{0xab, 0x13, 0x7a, 0xc5, 0xac, 0x48, 0x25, 0xee}}
+
+				iunknown, err := ole.CreateInstance(CLSID_CUIAutomation, IID_IUIAutomation)
+				fmt.Println(">>>", iunknown, err, iunknown.RawVTable)
+
 				fmt.Println(res, clssName, handle, processID, isMinimized, text, wInfo.dwWindowStatus, str, wInfo.dwStyle)
 				//fmt.Println(wInfo.dwWindowStatus, wInfo.cxWindowBorders, wInfo.cyWindowBorders)
 				//wInfo.dwExStyle, wInfo.dwStyle
 				//fmt.Println()
+				//Chrome_WidgetWin_1
 			}
 		}
 
